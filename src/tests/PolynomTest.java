@@ -1,6 +1,9 @@
-package myMath;
+package tests;
 
 import Exceptions.wrongDataException;
+import myMath.Monom;
+import myMath.Polynom;
+import myMath.Polynom_able;
 
 public class PolynomTest {
 	public static void main(String[] args) throws wrongDataException {
