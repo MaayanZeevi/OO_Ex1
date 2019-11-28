@@ -477,7 +477,7 @@ if(flag==false)
 	 *
 	 */
 	@Override
-	public boolean equals(Polynom_able p1) {
+	public boolean equals(Object p1) {
 		// TODO Auto-generated method stub
 		
 		if(this.toString().equals(p1.toString()))return true;
@@ -559,6 +559,13 @@ if(flag==false)
 
 
 	}
+
+	@Override
+	public function initFromString(String s) {
+		//TODO: implement this method
+		return null;
+	}
+
 	@Override
 	public double area(double x0, double x1, double eps) {
 		// TODO Auto-generated method stub

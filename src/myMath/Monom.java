@@ -114,7 +114,7 @@ this._power=b1;
 }
 	/**
 	 * Multiply between two Monoms. 
-	 * @param m Is a Monom with which i want to make the Multiply.
+	 * @param d Is a Monom with which i want to make the Multiply.
 	 * @return A Monom of the multiplication of my two Monoms.
 	 */
 	public void multipy(Monom d) {
@@ -145,6 +145,18 @@ this._power=b1;
 
 
 	
+	}
+
+	@Override
+	public function initFromString(String s) {
+		//TODO: implement this method
+		return null;
+	}
+
+	@Override
+	public function copy() {
+		//TODO: implement this method
+		return null;
 	}
 	// you may (always) add other methods.
 
