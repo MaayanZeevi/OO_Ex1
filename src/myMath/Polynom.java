@@ -28,13 +28,14 @@ public class Polynom implements Polynom_able {
      * Zero (empty polynom)
      */
     public Polynom() {
+
         p = new ArrayList<Monom>();
     }
 
     /**
      * Create a Polynom by inserting a Polynom
      *
-     * @param poly is Polynom which serves to create a new Polynom
+     * @param copy is a Polynom which serves to create a new Polynom
      */
     public Polynom(Polynom copy) {
 
@@ -50,7 +51,7 @@ public class Polynom implements Polynom_able {
      * init a Polynom from a String such as:
      * {"x", "3+1.4X^3-34x", "(2x^2-4)*(-1.2x-7.1)", "(3-3.4x+1)*((3.1x-1.2)-(3X^2-3.1))"};
      *
-     * @param s: is a string represents a Polynom
+     * @param string: is a string represents a Polynom
      */
     public Polynom(String string) throws wrongDataException {
 
@@ -62,7 +63,6 @@ public class Polynom implements Polynom_able {
     }
 
     private void PolytoString(String string) throws wrongDataException {
-        // TODO Auto-generated method stub
         boolean is_coefficient = true;
 
         String coefficient = "", power = "";
@@ -399,7 +399,6 @@ public class Polynom implements Polynom_able {
 
     @Override
     public double f(double x) {
-        // TODO Auto-generated method stub
         Iterator<Monom> i = this.iteretor();
         double ans = 0;
         while (i.hasNext()) {
@@ -411,10 +410,11 @@ public class Polynom implements Polynom_able {
 
     /**
      * Function that allows us to add a Polynom to our current Polynom
+     *
+     * @param p1 is the Polynom which added to the current Polynom
      */
     @Override
     public void add(Polynom_able p1) {
-        // TODO Auto-generated method stub
         Iterator<Monom> i = p1.iteretor();
         while (i.hasNext()) {
             Monom m = i.next();
@@ -427,7 +427,6 @@ public class Polynom implements Polynom_able {
      */
     @Override
     public void add(Monom m1) {
-        // TODO Auto-generated method stub
         Iterator<Monom> i = this.iteretor();
         boolean flag = false;
         while (i.hasNext() && flag == false) {
@@ -444,10 +443,11 @@ public class Polynom implements Polynom_able {
 
     /**
      * Function that allows us to substract a Polynom to our current Polynom
+     *
+     * @param p1 is the Polynom which substracted from our Polynom
      */
     @Override
     public void substract(Polynom_able p1) {
-        // TODO Auto-generated method stub
         Iterator<Monom> i = p1.iteretor();
         while (i.hasNext()) {
             Monom m = i.next();
@@ -458,37 +458,80 @@ public class Polynom implements Polynom_able {
 
     /**
      * Function that allows us to multiply a Polynom to our current Polynom
+     *
+     * @param multPolynom is the Polynom we mult with the current Polynom
      */
     @Override
-    public void multiply(Polynom_able p1) {
-        Polynom_able mult = this.copy();
+    public void multiply(Polynom_able multPolynom) {
+        Polynom_able currentPolynom = this.copy();
+        //p is clear because at least it will save the result of the multiplying between the Polynoms
         p.clear();
-        Iterator<Monom> it = mult.iteretor();
-        while (it.hasNext()) {
-            Monom m1 = it.next();
-            Iterator<Monom> it2 = p1.iteretor();
+        Iterator<Monom> i1 = currentPolynom.iteretor();
+        while (i1.hasNext()) {
+            Monom m1 = i1.next();
+            Iterator<Monom> it2 = multPolynom.iteretor();
             while (it2.hasNext()) {
                 Monom m2 = new Monom(it2.next());
                 m2.multipy(m1);
                 this.add(m2);
             }
         }
+        reduceSamePower();
     }
 
+    private void reduceSamePower(){
+        //Polynom pCopied= new Polynom((Polynom)this.copy());
+        //Iterator<Monom> it= pCopied.iteretor();
+
+        int n= this.p.size();
+        for(int i=0; i<n; i++){
+            Monom p1= this.p.get(i);
+            for(int j= i+1; j<n-1; j++){
+            Monom p2=this.p.get(j);
+                if(p1.get_power()==p1.get_power()){
+                    p1.add(p2);
+                    p.set(i,p1);
+                    Monom zero= new Monom(0, 0);
+                    p.set(j, zero);
+                }
+            }
+        }
+    }
     /**
      * Gets a given polynom and equals its monoms and checks if the monoms are the same as in this polynom
      */
     @Override
     public boolean equals(Object p1) {
-        // TODO Auto-generated method stub
-
-        if (this.toString().equals(p1.toString())) return true;
-        return false;
+        if(! (p1 instanceof Polynom_able)) {
+            return false;
+        }
+        Polynom p1Cast= ((Polynom) p1);
+        if(p1Cast.getP().size()!= this.getP().size()){
+            return false;
+        }
+        Iterator<Monom> i1 = this.iteretor();
+        boolean flag;
+        while(i1.hasNext()){
+            flag=false;
+            Monom m1= new Monom(i1.next());
+            Iterator<Monom> i2 = p1Cast.iteretor();
+            while(i2.hasNext()&& !flag){
+                Monom m2=i2.next();
+                if(m1.equals(m1)){
+                    flag=true;
+                }
+            }
+            if(!flag){
+                return false;
+            }
+        }
+        return true;
     }
-
+    private ArrayList<Monom> getP(){
+        return p;
+    }
     @Override
     public boolean isZero() {
-        // TODO Auto-generated method stub
         Iterator<Monom> i = this.iteretor();
         while (i.hasNext()) {
             Monom m = i.next();
@@ -524,9 +567,13 @@ public class Polynom implements Polynom_able {
 
     @Override
     public Polynom_able copy() {
-        // TODO Auto-generated method stub
-        return new Polynom(this);
-
+        Polynom copiedPolynom= new Polynom();
+        Iterator<Monom> iterator= this.iteretor();
+        while(iterator.hasNext()){
+            Monom toAdd= new Monom(iterator.next());
+            copiedPolynom.add(toAdd);
+        }
+        return copiedPolynom;
     }
 
     @Override
@@ -556,12 +603,13 @@ public class Polynom implements Polynom_able {
 
     @Override
     public function initFromString(String s) {
+        // TODO Auto-generated method stub
+      //  Polynom ans= new Polynom(s);
         return null;
     }
 
     @Override
     public double area(double x0, double x1, double eps) {
-        // TODO Auto-generated method stub
 
         double sum = 0;
         double min = Math.min(x0, x1);
@@ -578,14 +626,11 @@ public class Polynom implements Polynom_able {
 
     @Override
     public Iterator<Monom> iteretor() {
-        // TODO Auto-generated method stub
-
         return p.listIterator();
     }
 
     @Override
     public void multiply(Monom m1) {
-        // TODO Auto-generated method stub
         Polynom_able mult = this.copy();
         p.clear();
         Iterator<Monom> it = mult.iteretor();
