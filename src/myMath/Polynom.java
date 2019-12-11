@@ -1,17 +1,11 @@
 package myMath;
 
 
-import Exceptions.wrongDataException;
+import Exceptions.WrongDataException;
 
-import java.lang.invoke.WrongMethodTypeException;
 import java.util.ArrayList;
 
-import myMath.Monom;
-
 import java.util.Iterator;
-import java.util.function.Predicate;
-
-import myMath.Monom;
 
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
@@ -53,16 +47,16 @@ public class Polynom implements Polynom_able {
      *
      * @param string: is a string represents a Polynom
      */
-    public Polynom(String string) throws wrongDataException {
+    public Polynom(String string) throws WrongDataException {
 
         this();
 
-        PolytoString(string);
+        PolyToString(string);
 
 
     }
 
-    private void PolytoString(String string) throws wrongDataException {
+    private void PolyToString(String string) throws WrongDataException {
         boolean is_coefficient = true;
 
         String coefficient = "", power = "";
@@ -180,7 +174,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
+                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
 
                     }
 
@@ -230,7 +224,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
+                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
 
                     }
 
@@ -257,7 +251,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A power can not be a negitave power or a random symbal at location " + (i + 1) + string.charAt(i));
+                        throw new WrongDataException("A power can not be a negitave power or a random symbal at location " + (i + 1) + string.charAt(i));
 
                     }
 
@@ -291,7 +285,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A power can not be a negitave power at location " + i);
+                        throw new WrongDataException("A power can not be a negitave power at location " + i);
 
                     }
 
@@ -348,7 +342,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
+                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
 
                     }
 
@@ -378,7 +372,7 @@ public class Polynom implements Polynom_able {
 
                     {
 
-                        throw new wrongDataException("A polynom can not have a not number value = '" + string.charAt(i) + "' at location " + i);
+                        throw new WrongDataException("A polynom can not have a not number value = '" + string.charAt(i) + "' at location " + i);
 
                     }
 
@@ -392,7 +386,7 @@ public class Polynom implements Polynom_able {
 
 
     /**
-     * This function calculate the value of y by giving x from the user of this polynom.
+     * This function calculate the value of y by giving x from the user of this Polynom.
      *
      * @param x Is the entry entered into the function f
      */
@@ -476,27 +470,9 @@ public class Polynom implements Polynom_able {
                 this.add(m2);
             }
         }
-        reduceSamePower();
     }
 
-    private void reduceSamePower(){
-        //Polynom pCopied= new Polynom((Polynom)this.copy());
-        //Iterator<Monom> it= pCopied.iteretor();
 
-        int n= this.p.size();
-        for(int i=0; i<n; i++){
-            Monom p1= this.p.get(i);
-            for(int j= i+1; j<n-1; j++){
-            Monom p2=this.p.get(j);
-                if(p1.get_power()==p1.get_power()){
-                    p1.add(p2);
-                    p.set(i,p1);
-                    Monom zero= new Monom(0, 0);
-                    p.set(j, zero);
-                }
-            }
-        }
-    }
     /**
      * Gets a given polynom and equals its monoms and checks if the monoms are the same as in this polynom
      */
@@ -602,10 +578,8 @@ public class Polynom implements Polynom_able {
     }
 
     @Override
-    public function initFromString(String s) {
-        // TODO Auto-generated method stub
-      //  Polynom ans= new Polynom(s);
-        return null;
+    public function initFromString(String s) throws WrongDataException {
+        return new Polynom(s);
     }
 
     @Override
