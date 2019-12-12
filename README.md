@@ -1,2 +1,1 @@
-![GitHub Logo](/desktop/Projectlogo.png)
-Format: ![Alt Text](url)
+![My image](MaayanZeevi.github.com/repository/img/image.jpg)
