@@ -241,6 +241,11 @@ public class Monom implements function {
         return this._coefficient == 0;
 
     }
-
+    public boolean equals(Object obj){
+        if(!(obj instanceof Monom)){
+            return false;
+        }
+        return ((this.get_power()==((Monom) obj).get_power()) && (this.get_coefficient()==((Monom) obj).get_coefficient()));
+    }
 
 }

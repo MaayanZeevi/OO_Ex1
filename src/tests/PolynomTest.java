@@ -1,5 +1,5 @@
 package tests;
-import Exceptions.wrongDataException;
+
 import myMath.Polynom;
 import myMath.Monom;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class PolynomTest {
 
     @Test
-    public void constructorTest() throws wrongDataException {
+    public void constructorTest(){
         String str="2x^2+3x^3-4x^4";
         Polynom testUnite= new Polynom(str);
         Polynom expectedPoly= new Polynom();
