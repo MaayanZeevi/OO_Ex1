@@ -176,11 +176,14 @@ public class Functions_GUI implements functions{
 		setnumberX( rx); 
 		setnumberY(ry);
 		Iterator i=this.iterator();
+		int changecolor=0;
 		while(i.hasNext()) {
+			StdDraw.setPenColor(Colors[changecolor%7]);
 			function temp=(function)i.next();
 			for (double j = rx.get_min(); j <= rx.get_max(); j=j+step) {
 				StdDraw.line(j,temp.f(j),j+step,temp.f(j+step));	
 			}
+			changecolor++;
 		}
 	}
 

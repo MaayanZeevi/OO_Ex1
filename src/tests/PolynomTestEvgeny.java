@@ -54,6 +54,7 @@ public class PolynomTestEvgeny {
 		}
 
 		p1.substract(p1);
+		
 		if (!p1.isZero()) {
 			fails++;
 			System.out.println("failed is zero");
@@ -75,6 +76,10 @@ public class PolynomTestEvgeny {
 		}
 		//System.out.println("p1: "+p1);
 		//	System.out.println("p2: "+p2);
+		
+		
+		Polynom m=new Polynom(p1.toString());
+		
 		if (!p1.equals(new Polynom(p1.toString()))) {
 			fails++;
 			System.out.println("self check from string failed");
@@ -220,6 +225,8 @@ public class PolynomTestEvgeny {
 			System.out.println("fail copy");
 		}
 		p2.add(new Monom("x^2"));
+		
+		
 		if ( p1.equals(p2)) {
 			fails++;
 			System.out.println("fail deep copy");

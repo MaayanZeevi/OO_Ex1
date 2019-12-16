@@ -51,6 +51,7 @@ public class Polynom implements Polynom_able {
 		String monom="";
 		if(this.p==null) p=new ArrayList<Monom>();
 		for (int i = 0; i <string.length(); i++) {
+			
 			if(string.charAt(i)=='+')	{
 				Monom m=new Monom(monom);
 				this.add(m);
@@ -64,339 +65,18 @@ public class Polynom implements Polynom_able {
 			else {
 				monom=monom+string.charAt(i);
 			}
+		
 		}
+		
 		Monom m=new Monom(monom);
+		
+		
+		
 		this.add(m);
+		
 	}
 
-	//    public Polynom(String string) {
-	//        boolean is_coefficient = true;
-	//
-	//        String coefficient = "", power = "";
-	//
-	//        // replace +- to -
-	//
-	//        string = string.replaceAll("\\+-", "-");
-	//
-	//        // remove spaces
-	//
-	//        string = string.replaceAll(" ", "");
-	//
-	//        // remove [ . . . ]
-	//
-	//        string = (string.charAt(0) == '[' && string.charAt(string.length() - 1) == ']') ? string.substring(1, string.length() - 1) : string;
-	//
-	//        for (int i = 0; i < string.length(); i++)
-	//
-	//        {
-	//
-	//            // now in coefficient
-	//
-	//            if (is_coefficient)
-	//
-	//            {
-	//
-	//                // not last char
-	//
-	//                if (i + 1 < string.length())
-	//
-	//                {
-	//
-	//                    // end of coefficient because of x X *
-	//
-	//                    if (string.charAt(i) == 'x' || string.charAt(i) == '*' || string.charAt(i) == 'X')
-	//
-	//                    {
-	//
-	//                        //if my coefficient is blank so it means the the coefficient is 1
-	//
-	//                        if (coefficient.equals("") || coefficient.equals("-"))
-	//
-	//                        {
-	//
-	//                            coefficient += "1";
-	//
-	//                        }
-	//
-	//                        // i already have an x and the + or - means that i dont have a power so it means we are at power 1
-	//
-	//                        if (string.charAt(i + 1) == '+' || string.charAt(i + 1) == '-')
-	//
-	//                        {
-	//
-	//                            add(new Monom(Double.parseDouble(coefficient), 1));
-	//
-	//                            coefficient = "";
-	//
-	//                            power = "";
-	//
-	//                        }
-	//
-	//                        // i already have an x
-	//
-	//                        // regular done with coefficient so we are moving to power so coefficient is now false
-	//
-	//                        else
-	//
-	//                        {
-	//
-	//                            is_coefficient = false;
-	//
-	//                        }
-	//
-	//                    }
-	//
-	//                    // not x nor X nor *
-	//
-	//                    // if next value is + or - so no x's and its a monom where x^0
-	//
-	//                    else if (string.charAt(i + 1) == '+' || string.charAt(i + 1) == '-')
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient + string.charAt(i)), 0));
-	//
-	//                        coefficient = "";
-	//
-	//                    }
-	//
-	//                    // not x nor X nor * nor + nor -
-	//
-	//                    // if this value is - or . or digit so add it to coefficient
-	//
-	//                    else if ((Character.isDigit(string.charAt(i)) || string.charAt(i) == '-' || string.charAt(i) == '.'))
-	//
-	//                    {
-	//
-	//                        coefficient = coefficient + string.charAt(i);
-	//
-	//                    }
-	//
-	//                    // number starting is + so do nothing
-	//
-	//                    else if (string.charAt(i) == '+')
-	//
-	//                    {
-	//
-	//
-	//                    }
-	//
-	//                    // all other cases where this value is not valid
-	//
-	//                    else
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
-	//
-	//                    }
-	//
-	//                }
-	//
-	//                // this is the last char in the string
-	//
-	//                // no need the if since its only case that its not "i+1<string.length()" so it would be easier to debug
-	//
-	//                else if (i + 1 == string.length())
-	//
-	//                {
-	//
-	//                    //  when last char is x or X
-	//
-	//                    if (string.charAt(i) == 'x' || string.charAt(i) == 'X')
-	//
-	//                    {
-	//
-	//                        // make sure coefficient has a value
-	//
-	//                        if (coefficient.equals("") || coefficient.equals("-"))
-	//
-	//                        {
-	//
-	//                            coefficient += "1";
-	//
-	//                        }
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient), 1));
-	//
-	//                    }
-	//
-	//                    // when last char is number
-	//
-	//                    else if (Character.isDigit(string.charAt(i)))
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient + string.charAt(i)), 0));
-	//
-	//                    }
-	//
-	//                    // all other cases where this value is not valid
-	//
-	//                    else
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
-	//
-	//                    }
-	//
-	//                }
-	//
-	//            }
-	//
-	//            // now in power
-	//
-	//            else
-	//
-	//            {
-	//
-	//
-	//                // not last char
-	//
-	//                if (i + 1 < string.length())
-	//
-	//                {
-	//
-	//                    // making sure that the beginning of power is written correctly
-	//
-	//                    if (string.charAt(i) == '^' && !Character.isDigit(string.charAt(i + 1)) || ((string.charAt(i) == 'x' || string.charAt(i) == 'X') && (string.charAt(i + 1) != '^' && string.charAt(i + 1) != ',')))
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A power can not be a negitave power or a random symbal at location " + (i + 1) + string.charAt(i));
-	//
-	//                    }
-	//
-	//                    // when the string is presented as the toString value
-	//
-	//                    // for example "3.0*X^8, -8.0*X^3, 1.1*X, -3.0"
-	//
-	//                    // we will need to skip the 2 values ", " and this means we are done with this monom
-	//
-	//                    if (string.charAt(i + 1) == ',')
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient), (power == "" && (string.charAt(i) == 'x' || string.charAt(i) == 'X')) ? 1 : Integer.parseInt(power + string.charAt(i))));
-	//
-	//                        coefficient = "";
-	//
-	//                        power = "";
-	//
-	//                        is_coefficient = true;
-	//
-	//                        i += 1;
-	//
-	//                    }
-	//
-	//                    // please notice &&
-	//
-	//                    // this case when the power is - we throw an exception
-	//
-	//                    else if (string.charAt(i + 1) == '-' && string.charAt(i) == '^')
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A power can not be a negitave power at location " + i);
-	//
-	//                    }
-	//
-	//                    // if next value is + or - it means we are done with this monom
-	//
-	//                    else if (string.charAt(i + 1) == '+' || string.charAt(i + 1) == '-')
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient), Integer.parseInt(power + string.charAt(i))));
-	//
-	//                        coefficient = "";
-	//
-	//                        power = "";
-	//
-	//                        is_coefficient = true;
-	//
-	//                    }
-	//
-	//                    // if we are not - nor +
-	//
-	//                    // and we are a digit so add it to the power
-	//
-	//                    else if (Character.isDigit(string.charAt(i)))
-	//
-	//                    {
-	//
-	//                        power = power + string.charAt(i);
-	//
-	//                    } else if (string.charAt(i) == 'x' || string.charAt(i) == 'X' || string.charAt(i) == '^')
-	//
-	//                    {
-	//
-	//
-	//                    } else if (string.charAt(i) == ',' && power == "")
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient), 1));
-	//
-	//                        coefficient = "";
-	//
-	//                        power = "";
-	//
-	//                        is_coefficient = true;
-	//
-	//                    }
-	//
-	//                    // if not number
-	//
-	//                    // all other cases where this value is not valid
-	//
-	//                    else
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A polynom can not have a not number value =  " + string.charAt(i) + " at location " + i);
-	//
-	//                    }
-	//
-	//                }
-	//
-	//                // this is the last char in the string
-	//
-	//                // no need the if since its only case that its not "i+1<string.length()" so it would be easier to debug
-	//
-	//                else if (i + 1 == string.length())
-	//
-	//                {
-	//
-	//                    // making sure last char is a digit
-	//
-	//                    if (Character.isDigit(string.charAt(i)))
-	//
-	//                    {
-	//
-	//                        add(new Monom(Double.parseDouble(coefficient), Integer.parseInt(power + string.charAt(i))));
-	//
-	//                    }
-	//
-	//                    // all other cases where this value is not valid
-	//
-	//                    else
-	//
-	//                    {
-	//
-	//                        throw new WrongDataException("A polynom can not have a not number value = '" + string.charAt(i) + "' at location " + i);
-	//
-	//                    }
-	//
-	//                }
-	//
-	//            }
-	//
-	//        }
-	//
-	//    }
-
+	
 
 	/**
 	 * This function calculate the value of y by giving x from the user of this Polynom.
@@ -434,18 +114,40 @@ public class Polynom implements Polynom_able {
 	 */
 	@Override
 	public void add(Monom m1) {
-		Iterator<Monom> i = this.iteretor();
-		boolean flag = false;
-		while (i.hasNext() && flag == false) {
-			Monom m = i.next();
-			if (m.get_power() == m1.get_power()) {
-				m.add(m1);
-				flag = true;
-			}
-
+		boolean flag = true; // check if we already added the monom (m1) to this Polynom
+		if (this.p.isEmpty()) {
+			this.p.add(m1);
+			flag = false;
 		}
-		if (flag == false)
-			p.add(m1);
+		else {
+			Iterator<Monom> iterator = this.iteretor();
+			Monom temp;
+			while (flag && iterator.hasNext()) {
+				temp = iterator.next();
+				if (temp.get_power() == m1.get_power()) { 
+					temp.add(m1);
+					flag = false;
+				}
+				else if(temp.get_power() < m1.get_power()) { 
+					Monom temp1 = temp;
+					int index = this.p.indexOf(temp1); 
+					this.p.set(index, m1); 
+					Monom temp2;
+					while (iterator.hasNext()) { 
+						temp2 = iterator.next();
+						index++;
+						this.p.set(index, temp1);
+						temp1 = temp2;
+					}
+					this.p.add(temp1);
+					flag = false;
+				}
+			}
+		}
+		if (flag) { //if the monom is not placed , then place it at the end.
+			this.p.add(m1);
+		}
+			
 	}
 
 	/**
@@ -455,13 +157,54 @@ public class Polynom implements Polynom_able {
 	 */
 	@Override
 	public void substract(Polynom_able p1) {
-		Iterator<Monom> i = p1.iteretor();
-		while (i.hasNext()) {
-			Monom m = i.next();
-			m.multByNumber(-1);
-			this.add(m);
+		if (this == p1) {
+			this.p.clear();
+			this.p.add(new Monom(0,0));
+		}
+		else {
+			Iterator<Monom> iterator = p1.iteretor();
+			while (iterator.hasNext()) {
+				Monom temp = iterator.next();
+				this.substract(temp);
+			}
 		}
 	}
+	
+	public void substract(Monom m1) { // Similar to the add function.
+		if (!this.p.isEmpty()) {
+			Iterator<Monom> iterator = this.iteretor();
+			Monom temp;
+			boolean flag = false;
+			while (!flag && iterator.hasNext()) {
+				temp = iterator.next();
+				if (temp.get_power() == m1.get_power()) {
+					temp.substract(m1);
+					flag = true;
+				}
+				else if(temp.get_power() < m1.get_power()) {
+					Monom moveIn = temp;
+					int index = this.p.indexOf(moveIn);
+					this.p.set(index, m1);
+					Monom moveOut;
+					while (iterator.hasNext()) {
+						moveOut = iterator.next();
+						index++;
+						this.p.set(index, moveIn);
+						moveIn = moveOut;
+					}
+					this.p.add(moveIn);
+					flag = true;
+				}
+				
+			}
+		}
+		else {
+			m1.opposite();
+			this.p.add(m1);
+		}
+	}
+
+
 
 	/**
 	 * Function that allows us to multiply a Polynom to our current Polynom
@@ -485,7 +228,7 @@ public class Polynom implements Polynom_able {
 		}
 	}
 
-
+	
 	/**
 	 * Gets a given polynom and equals its monoms and checks if the monoms are the same as in this polynom
 	 */
@@ -506,7 +249,7 @@ public class Polynom implements Polynom_able {
 			Iterator<Monom> i2 = p1Cast.iteretor();
 			while(i2.hasNext()&& !flag){
 				Monom m2=i2.next();
-				if(m1.equals(m1)){
+				if(m1.equals(m2)){
 					flag=true;
 				}
 			}
@@ -531,51 +274,42 @@ public class Polynom implements Polynom_able {
 
 	@Override
 	public double root(double x0, double x1, double eps) {
-		double c = x0;
-
-		if ((f(x0) * f(x1)) >= 0) {
-			System.out.println("There is no solotion for this polynom.");
-			return Double.MAX_VALUE;
-		} else {
-			while ((x1 - x0) >= eps) {
-				c = (x0 + x1) / 2;
-				if (f(c) == 0.0) {
-					break;
-				} else if (f(c) * f(x0) < 0) {
-					x1 = c;
-				} else {
-					x0 = c;
-				}
-			}
-
+		if(f(x0)*f(x1)>0) throw new RuntimeException("The func` do not Cross the X line");
+		double valueMed = (x0+x1)/2;
+		while(Math.abs(f(valueMed))>eps){
+			if(f(valueMed)*f(x0)<0) x1 = valueMed;
+			else x0 = valueMed;
+			valueMed = (x0+x1)/2;
 		}
-
-		return c;
+		return valueMed;	
 	}
 
 
 	@Override
 	public Polynom_able copy() {
-		Polynom copiedPolynom= new Polynom();
-		Iterator<Monom> iterator= this.iteretor();
-		while(iterator.hasNext()){
-			Monom toAdd= new Monom(iterator.next());
-			copiedPolynom.add(toAdd);
-		}
-		return copiedPolynom;
-	}
+				Polynom newpolynom = new Polynom();
+				Iterator<Monom> iterator = this.iteretor();
+				Monom temp;
+				while(iterator.hasNext()) {
+					temp = iterator.next();
+					Monom newMonom = new Monom(temp);
+					newpolynom.add(newMonom);
+				}
+				return newpolynom;
+			}
+	
 
 	@Override
 	public Polynom_able derivative() {
 		// TODO Auto-generated method stub
-		Polynom p = new Polynom();
-		Iterator<Monom> it = this.iteretor();
-		while (it.hasNext()) {
-			Monom m = it.next();
-			m.derivative();
-			p.add(m);
+		Iterator<Monom> iterator = this.p.iterator();
+		Monom temp;
+		Polynom ans = new Polynom();
+		while(iterator.hasNext()) {
+			temp = iterator.next();
+			ans.add(temp.derivative());
 		}
-		return p;
+		return ans;
 	}
 
 	/**
@@ -585,8 +319,18 @@ public class Polynom implements Polynom_able {
 	 */
 	public String toString() {
 
-		return p.toString();
-
+		String result = "";
+		Iterator<Monom> iterator = this.iteretor();
+		if(iterator.hasNext()) {
+			result = iterator.next().toString();
+		}
+		while (iterator.hasNext()) {
+			String temp = iterator.next().toString();
+			if(!temp.equals("0")) {
+				result = result + "+" + temp;
+			}
+		}
+		return result;
 
 	}
 
@@ -599,14 +343,12 @@ public class Polynom implements Polynom_able {
 	public double area(double x0, double x1, double eps) {
 
 		double sum = 0;
-		double min = Math.min(x0, x1);
-		double max = Math.max(x0, x1);
-		while (min < max) {
-			min = min + eps;
-			if (this.f(min) > 0) {
-				sum = sum + eps * this.f(min);
-			}
-
+		while(x0 < x1 && f(x0) > 0) {
+			double y = this.f(x0);
+			double temp = eps * y;
+			temp = Math.abs(temp);
+			sum = sum + temp;
+			x0 = x0 + eps;
 		}
 		return sum;
 	}

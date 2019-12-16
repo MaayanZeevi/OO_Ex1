@@ -14,7 +14,53 @@ public class ComplexFunction implements complex_function {
 		this.r = null;
 		this.op = Operation.None;
 	}
+	
+	public ComplexFunction(function f) {
+		initFromString(f.toString());
+	}
+	
+	public ComplexFunction(Polynom p1){
+        function left = p1;
+        this.l = left;
 
+    }
+	public ComplexFunction(String s, function left, function right) {
+		s = s.toLowerCase();
+		this.op = StringToOperation(s);
+		this.l = left.copy();
+		this.r = right.copy(); 
+		if (this.l == null) {
+			this.r = left;
+			this.r = null;
+		}
+		if (this.r == null) {
+			this.op = Operation.None;
+		}
+	}
+	public static Operation StringToOperation(String s) {
+		s = s.toLowerCase();
+		if (s.equals("plus") || s.equals("add")) {
+			return  Operation.Plus;
+		}
+		else if (s.equals("times") || s.equals("mul")) {
+			return Operation.Times;
+		}
+		else if (s.equals("div") || s.equals("divide") || s.equals("divid")) {
+			return Operation.Divid;
+		}
+		else if (s.equals("max")) {
+			return Operation.Max;
+		}
+		else if (s.equals("min")) {
+			return Operation.Min;
+		}
+		else if (s.equals("comp")) {
+			return Operation.Comp;
+		}
+		return Operation.None;
+	}
+	
+	
 
 	public Polynom PolynomHelper(String s) {
 		return new Polynom(s);
@@ -23,129 +69,103 @@ public class ComplexFunction implements complex_function {
 
 	public ComplexFunction(String s) {
 		s = s.toLowerCase();
-
-		String op = "";
-		boolean endOp=true;
-		int parenthesis=0;
-		int index=0;
-		for (int i = 0; i < s.length() &&endOp; i++) {
+		if(s.isEmpty()) {
+			return;
+		}
+		String operation = "";
+		int counter = 0;
+		int i = 0;
+		for (; i < s.length(); i++) {
+			if (s.charAt(i) != '(') {
+				operation = operation + s.charAt(i);
+			}
+			else {
+				counter++;
+				i++;
+				break;
+			}
+		}
+		String func1 = "";
+		for (; i < s.length(); i++) {
 			if (s.charAt(i) == '(') {
-				parenthesis++;
-				endOp = false;
-				index = i +1;
+				counter++;
+			}
+			if (s.charAt(i) == ')') {
+				counter--;
+			}
+			if(s.charAt(i) == ',' && counter == 1) {
+				i++;
+				break;
+			}
+			func1 = func1 + s.charAt(i);
+		}
+		String func2 = "";
+		for (; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				counter++;
+			}
+			if (s.charAt(i) == ')') {
+				counter--;
+			}
+			if(s.charAt(i) == ')' && counter == 0) {
+				break;
+			}
+			func2 = func2 + s.charAt(i);
+		}
+		if (!func1.isEmpty()) {
+			if((func1.charAt(0) >= '0' && func1.charAt(0) <= '9') || func1.charAt(0) == 'x' || func1.charAt(0) == '-' || func1.charAt(0) == '+') {
+				if(func1.charAt(0) == '+') {
+					func1 = func1.substring(1);
+				}
+				this.l = new Polynom(func1);
 			}
 			else {
-				op =op+s.charAt(i);
+				this.l = new ComplexFunction(func1);
 			}
-
-		}
-		String l = "";
-		boolean endL=true;
-		for (int i = index; i < s.length()&&endL; i++) {
-			if (s.charAt(i) == ',' && parenthesis == 1) {
-				endL = false;
-				index = i +1;
-			}
-			else {
-				l=l+s.charAt(i);
-				if (s.charAt(i) == ')')parenthesis--;
-				if (s.charAt(i) == '(')parenthesis++;
-			}
-		}
-		if(!(l.charAt(0)>= 'a' && l.charAt(0)< 'x') && !(l.charAt(0)> 'x' && l.charAt(0)<= 'z')) {
-			this.l = PolynomHelper(l);
 		}
 		else {
-			this.l = new ComplexFunction(l);
+			this.l= null;
 		}
-
-		String r = "";
-		boolean endR=true;
-		for (int i = index; i < s.length()&&endR; i++) {
-			if (s.charAt(i) == ')' && parenthesis == 1) {
-				endL = false;
+		if (!func2.isEmpty()) {
+			if((func2.charAt(0) >= '0' && func2.charAt(0) <= '9') || func2.charAt(0) == 'x' || func2.charAt(0) == '-' || func2.charAt(0) == '+') {
+				if(func2.charAt(0) == '+') {
+					func2 = func2.substring(1);
+				}
+				this.r = new Polynom(func2);
 			}
 			else {
-				r=r+s.charAt(i);
-				if (s.charAt(i) == ')')parenthesis--;
-				if (s.charAt(i) == '(')parenthesis++;
+				this.r = new ComplexFunction(func2);
 			}
-		}
-		if(!(r.charAt(0)>= 'a' && r.charAt(0)< 'x') && !(r.charAt(0)> 'x' && r.charAt(0)<= 'z')) {
-			this.r = PolynomHelper(l);
-		}
-		else {
-			this.r = new ComplexFunction(l);
-		}
-
-		//todo!!!!!!!!!!!!!!!!!!!
-		if(op.equals("plus") || op.equals("plus")) {
-			this.op = Operation.Plus;
-
-		}
-		if(op.equals("times") || op.equals("mul")) {
-			this.op = Operation.Times;
-
-		}
-		if(op.equals("divid") || op.equals("div")) {
-			this.op = Operation.Divid;
-
-		}
-
-		if(op.equals("max") || op.equals("max")) {
-			this.op = Operation.Max;
-
-		}
-		if(op.equals("min") || op.equals("min")) {
-			this.op = Operation.Min;
-
-		}
-		if(op.equals("comp") || op.equals("comp")) {
-			this.op = Operation.Comp;
-
+			this.op = StringToOperation(operation);
 		}
 		}
+		
 		@Override
 		public double f(double x) {
-			double f1 = 0;
-			if(this.l!=null) {
-				if (this.l instanceof Polynom ) {
-					Polynom p = (Polynom) this.l;
-					f1 = p.f(x);
-				}
-				else {
-					f1= this.l.f(x);
-				}}
-			double f2 = 0;
-
-			if(this.r!=null) {
-				if (this.r instanceof Polynom) {
-					Polynom p = (Polynom) this.r;
-					f2 = p.f(x);
-				}
-				else {
-					f2= this.r.f(x);
-				}
+			double l1 = 0;
+			double r1 = 0;
+			if (this.r != null) {
+				r1 = r.f(x);
 			}
-			if (op == Operation.None) {
-				return 0;
+			if (this.l!= null) {
+				l1 = l.f(x);
 			}
-			if (op == Operation.Plus) {
-				return f1 + f2;
+			if(op == Operation.Plus) {
+				return l1+r1;
 			}
-			if (op == Operation.Times) {
-				return f1 * f2;
+			if(op == Operation.Times) {
+				return l1*r1;
 			}
-			if (op == Operation.Divid) {
-				return l.f(x) / r.f(x);
+			if(op == Operation.Divid) {
+				return l1/r1;
 			}
-			if (op == Operation.Max) {
-				return Math.max(l.f(x) , r.f(x));
+			if(op == Operation.Max) {
+				return Math.max(l1, r1);
 			}
-			if (op == Operation.Min) {
-				return Math.min(l.f(x),r.f(x));
+			if(op == Operation.Min) {
+				return Math.min(l1, r1);
 			}
-			if (op == Operation.Comp) { //to do
+			if(op == Operation.Comp) {
 				return l.f(r.f(x));
 			}
 			return 0;
@@ -153,19 +173,31 @@ public class ComplexFunction implements complex_function {
 
 		@Override
 		public function initFromString(String s) {
-			ComplexFunction cf1 = new ComplexFunction(s);
-			return cf1;
+			if((s.charAt(0) >= '0' && s.charAt(0) <= '9') || s.charAt(0) == 'x' || s.charAt(0) == '-' || s.charAt(0) == '+') {
+				return new Polynom(s);
+			}
+			ComplexFunction ans = new ComplexFunction(s);
+			return ans;
 		}
 
 		@Override
 		public function copy() {
-			ComplexFunction copy = new ComplexFunction();
-			copy.l = new ComplexFunction(this.l.toString()); //TODO 
-			copy.r = new ComplexFunction(this.r.toString());
-			copy.op = this.op;
-			return copy;
+			String temp = this.toString();
+			ComplexFunction ans = new ComplexFunction(temp);
+			return ans;
 		}
-
+		public ComplexFunction(Operation op, function left, function right) {
+			this.op = op;
+			this.l = left;
+			this.r = right; 
+			if (this.l== null) {
+				this.r = left;
+				this.r= null;
+			}
+			if (this.r== null) {
+				this.op = Operation.None;
+			}
+		}
 		@Override
 		public void plus(function f1) {
 			function copy=this.copy();
@@ -177,28 +209,54 @@ public class ComplexFunction implements complex_function {
 		@Override
 		public void mul(function f1) {
 			// TODO Auto-generated method stub
-			function copy=this.copy();
-			this.l=copy;
-			this.op=Operation.Times;
-			this.r=f1;
+			if (this.l == null && this.r == null) {
+				this.l = f1.copy();
+				return;
+			}
+			if(this.r== null) {
+				this.op = Operation.Times;
+				this.r = f1.copy();
+				return;
+			}
+			function temp = this.copy();
+			this.l= temp;
+			this.op = Operation.Times;
+			this.r = f1;
 		}
 
 		@Override
 		public void div(function f1) {
-			// TODO Auto-generated method stub
-			function copy=this.copy();
-			this.l=copy;
-			this.op=Operation.Divid;
-			this.r=f1;	
+			if (this.l == null && this.r== null) {
+				this.l= f1.copy();
+				return;
+			}
+			if(this.r == null) {
+				this.op = Operation.Divid;
+				this.r = f1.copy();
+				return;
+			}
+			function temp = this.copy();
+			this.l= temp;
+			this.op = Operation.Divid;
+			this.r = f1;
 		}
 
 		@Override
 		public void max(function f1) {
 			// TODO Auto-generated method stub
-			function copy=this.copy();
-			this.l=copy;
-			this.op=Operation.Max;
-			this.r=f1;
+			if (this.l == null && this.r == null) {
+				this.l = f1.copy();
+				return;
+			}
+			if(this.r == null) {
+				this.op = Operation.Max;
+				this.r= f1.copy();
+				return;
+			}
+			function temp = this.copy();
+			this.l= temp;
+			this.op = Operation.Max;
+			this.r = f1;
 		}
 
 		@Override
@@ -237,8 +295,14 @@ public class ComplexFunction implements complex_function {
 			return this.op;
 		}
 		public String toString() {
-			return""+this.op.toString()+"("+this.l.toString()+","+this.r.toString()+")";
-		}
+			String ans = "";
+			if (this.l != null && this.r != null) {
+				ans =  this.op.toString() + "(" + this.l.toString() + "," + this.r.toString() + ")";
+			}
+			if (this.r == null && this.l != null) {
+				ans = this.l.toString();
+			}
+			return ans;		}
 		
 		public boolean equals(ComplexFunction p) {
 			return(this.toString().equals(p.toString()));

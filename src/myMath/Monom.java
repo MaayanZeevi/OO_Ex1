@@ -70,7 +70,27 @@ public class Monom implements function {
     public void multByNumber(int num) {
         this.set_coefficient(_coefficient * num);
     }
+    public void substract (Monom m) {
+		if (this.get_power()  == m.get_power()) {
+			this.set_coefficient(this.get_coefficient() - m.get_coefficient());	
+		}
+		 
+		else if (this.get_coefficient() == 0) { 
+				this.set_coefficient(0 - m.get_coefficient());
+				this.set_power(m.get_power());
+			
+		}
+	}
 
+
+	/**
+	 * The function reverses the sign of a  monom.
+	 */
+	public void opposite() {
+		if (get_coefficient() != 0) {
+			this.set_coefficient(this.get_coefficient() * -1);
+		}
+	}
     /**
      * Method that returns the derivative of the current function
      *
@@ -108,6 +128,11 @@ public class Monom implements function {
      * @param s this is a String which includes the monom details of 'a' and 'b'
      */
     public Monom(String s) {
+    	if(s.length()==0) {
+    		this._coefficient = 0;
+            this._power = 0;
+            return ;
+    	}
         if (!s.contains("x")) {
             s = s + "x^0";
         }
@@ -122,7 +147,7 @@ public class Monom implements function {
         String b = "";
         int index = s.indexOf('x');
         a = s.substring(0, index);
-        System.out.println(a);
+       
         b = s.substring(index + 2);
 
         if (a.equals("-")) {
@@ -132,6 +157,7 @@ public class Monom implements function {
         int b1 = Integer.parseInt(b);
         this._coefficient = a1;
         this._power = b1;
+       
     }
 
     /**
@@ -166,13 +192,13 @@ public class Monom implements function {
     public String toString() {
         if (this._power == 0) {
 
-            return this._coefficient + "";
+            return this._coefficient + "x^0";
 
         }
 
         if (this._coefficient == 0) {
 
-            return 0 + "";
+            return 0 + "x^"+ this._power;
 
         } else
 
