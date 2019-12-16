@@ -20,29 +20,47 @@ public class Functions_GUI implements functions{
 	public static Color[] Colors = {Color.blue, Color.cyan, Color.MAGENTA, Color.ORANGE,
 			Color.red, Color.GREEN, Color.PINK};
 
-
+	/**
+	 * Constructor that initializes an empty LinkedList.   
+	 */
 	public Functions_GUI () {
 		ls=new LinkedList<function>();
 	}
-
+	/**
+	 * Implements the size function from functions interface.
+	 * Returns the size of the LinkedList  
+	 * using the size function from the LinkedList class.
+	 */
 	@Override
 	public int size() {
 		return ls.size();
 
 	}
-
+	/**
+	 * Implements isempty function from functions interface.
+	 * Returns if the LinkedList  is empty or no 
+	 * using the  function isemptyfrom the LinkedList class.
+	 */
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return ls.isEmpty();
 	}
-
+	/**
+	 * Implements the contains function from functions interface.
+	 * Returns if  the LinkedList  contains object o
+	 * using the contains function from the LinkedList class.
+	 */
 	@Override
 	public boolean contains(Object o) {
 		// TODO Auto-generated method stub
 		return ls.contains(o);
 	}
-
+	/**
+	 * Implements the iterator function from functions interface.
+	 * Returns the iterator of the LinkedList  
+	 * using the iterator function from the LinkedList class.
+	 */
 	@Override
 	public Iterator<function> iterator() {
 		// TODO Auto-generated method stub
@@ -60,13 +78,21 @@ public class Functions_GUI implements functions{
 		// TODO Auto-generated method stub
 		return ls.toArray(a);
 	}
-
+	/**
+	 * This function is checking whether or not the collections contains the specified element.
+	 *using function add(function e)of linkedlist class
+	 * @param e
+	 */
 	@Override
 	public boolean add(function e) {
 		// TODO Auto-generated method stub
 		return ls.add(e);
 	}
-
+	/**
+	 * This function is removing a single object.
+	 * using function remove from linkedlist  clas
+	 * @param o
+	 */
 	@Override
 	public boolean remove(Object o) {
 		// TODO Auto-generated method stub
@@ -78,7 +104,11 @@ public class Functions_GUI implements functions{
 		// TODO Auto-generated method stub
 		return ls.containsAll(c);
 	}
-
+	/**
+	 * This function adds all of the elements of the specified collection to this collection by using the 
+	 * using addAll from LinkedList class.
+	 * @param c
+	 */
 	@Override
 	public boolean addAll(Collection<? extends function> c) {
 		// TODO Auto-generated method stub
@@ -96,13 +126,20 @@ public class Functions_GUI implements functions{
 		// TODO Auto-generated method stub
 		return ls.retainAll(c);
 	}
-
+	/**
+	 * This function clears all of the elements of this collection by using the clear function of LinkedList.
+	 */
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
 		ls.clear();
 	}
-
+	/**
+	 * Initialize a collection of function from a file.
+	
+	 * @param file
+	 * @throws printstackTrace
+	 */
 	@Override
 	public void initFromFile(String file) throws IOException {
 		// TODO Auto-generated method stub
@@ -135,7 +172,15 @@ public class Functions_GUI implements functions{
 	        }
 
 	    }
-
+	/**
+	 * This function is creating an Iterator and runs through the the collection.
+	 * creating a StringBuilder , the function is adding Strings and saves all 
+	 * Finally the function is writing the Strings into a file.
+	 * 
+	 * @param file
+	 * @throws exception
+	 * @return
+	 */
 	@Override
 	public void saveToFile(String file) throws IOException {
 		// TODO Auto-generated method stub
@@ -161,6 +206,17 @@ public class Functions_GUI implements functions{
 		}
 	}
 
+	
+	/**
+	 * This function is drawing all the functions that are contained is this collection.
+	 * 
+	 * An iterator traverses the collection and draws every function 
+	 * @param width
+	 * @param height
+	 * @param rx
+	 * @param ry
+	 * @param resolution
+	 */
 	@Override
 	public  void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		// TODO Auto-generated method stub
@@ -207,6 +263,12 @@ public class Functions_GUI implements functions{
 		}
 	}
 
+	
+	/**
+	 * This function is trying to draw a function by reading from a JSon File.
+	 *
+	 * @param json_file
+	 */
 	@Override
 	public void drawFunctions(String json_file) {
 		// TODO Auto-generated method stub
@@ -225,7 +287,11 @@ public class Functions_GUI implements functions{
         	
         }
 	}
-
+	/**
+	 * A inner-class that contains the parameters in order to draw a Function.  the height, the 
+	 * width and the resolution of our Window, a range of values for x and y.
+	 * 
+	 */
 	
 	public class paramater {
 		int Width;

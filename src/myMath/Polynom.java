@@ -144,7 +144,7 @@ public class Polynom implements Polynom_able {
 				}
 			}
 		}
-		if (flag) { //if the monom is not placed , then place it at the end.
+		if (flag) { // place it at the end.
 			this.p.add(m1);
 		}
 			
@@ -182,17 +182,17 @@ public class Polynom implements Polynom_able {
 					flag = true;
 				}
 				else if(temp.get_power() < m1.get_power()) {
-					Monom moveIn = temp;
-					int index = this.p.indexOf(moveIn);
+					Monom m = temp;
+					int index = this.p.indexOf(m);
 					this.p.set(index, m1);
-					Monom moveOut;
+					Monom temp1;
 					while (iterator.hasNext()) {
-						moveOut = iterator.next();
+						temp1 = iterator.next();
 						index++;
-						this.p.set(index, moveIn);
-						moveIn = moveOut;
+						this.p.set(index, m);
+						m = temp1;
 					}
-					this.p.add(moveIn);
+					this.p.add(m);
 					flag = true;
 				}
 				
@@ -213,10 +213,10 @@ public class Polynom implements Polynom_able {
 	 */
 	@Override
 	public void multiply(Polynom_able multPolynom) {
-		Polynom_able currentPolynom = this.copy();
-		//p is clear because at least it will save the result of the multiplying between the Polynoms
+		Polynom_able Polynom = this.copy();
+		
 		p.clear();
-		Iterator<Monom> i1 = currentPolynom.iteretor();
+		Iterator<Monom> i1 = Polynom.iteretor();
 		while (i1.hasNext()) {
 			Monom m1 = i1.next();
 			Iterator<Monom> it2 = multPolynom.iteretor();
@@ -237,8 +237,8 @@ public class Polynom implements Polynom_able {
 		if(! (p1 instanceof Polynom_able)) {
 			return false;
 		}
-		Polynom p1Cast= ((Polynom) p1);
-		if(p1Cast.getP().size()!= this.getP().size()){
+		Polynom p1Casting= ((Polynom) p1);
+		if(p1Casting.getP().size()!= this.getP().size()){
 			return false;
 		}
 		Iterator<Monom> i1 = this.iteretor();
@@ -246,7 +246,7 @@ public class Polynom implements Polynom_able {
 		while(i1.hasNext()){
 			flag=false;
 			Monom m1= new Monom(i1.next());
-			Iterator<Monom> i2 = p1Cast.iteretor();
+			Iterator<Monom> i2 = p1Casting.iteretor();
 			while(i2.hasNext()&& !flag){
 				Monom m2=i2.next();
 				if(m1.equals(m2)){
@@ -275,13 +275,13 @@ public class Polynom implements Polynom_able {
 	@Override
 	public double root(double x0, double x1, double eps) {
 		if(f(x0)*f(x1)>0) throw new RuntimeException("The func` do not Cross the X line");
-		double valueMed = (x0+x1)/2;
-		while(Math.abs(f(valueMed))>eps){
-			if(f(valueMed)*f(x0)<0) x1 = valueMed;
-			else x0 = valueMed;
-			valueMed = (x0+x1)/2;
+		double mid = (x0+x1)/2;
+		while(Math.abs(f(mid))>eps){
+			if(f(mid)*f(x0)<0) x1 = mid;
+			else x0 = mid;
+			mid = (x0+x1)/2;
 		}
-		return valueMed;	
+		return mid;	
 	}
 
 
@@ -342,15 +342,15 @@ public class Polynom implements Polynom_able {
 	@Override
 	public double area(double x0, double x1, double eps) {
 
-		double sum = 0;
+		double ans = 0;
 		while(x0 < x1 && f(x0) > 0) {
-			double y = this.f(x0);
-			double temp = eps * y;
+			double w = this.f(x0);
+			double temp = eps * w;
 			temp = Math.abs(temp);
-			sum = sum + temp;
+			ans= ans + temp;
 			x0 = x0 + eps;
 		}
-		return sum;
+		return ans;
 	}
 
 	@Override
